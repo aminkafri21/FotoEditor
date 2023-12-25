@@ -135,15 +135,19 @@ public class Main implements ActionListener {
         String command = e.getActionCommand(); 
         switch(command){
         case "New":
+            fileFunc.New();
             break;
         case "Open":
             fileFunc.open();
             break; 
         case "Exit":
+            fileFunc.Exit();
             break; 
         case "Save":
+            fileFunc.save();
             break;
         case "SaveAs":
+            fileFunc.saveAs();
             break;
         case "Undo":
             break;

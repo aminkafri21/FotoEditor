@@ -14,7 +14,7 @@ import javax.swing.JPanel;
  */
 public class ImageCanvas extends JPanel{
     Main main;
-    BufferedImage image;
+    public BufferedImage image;
     public ImageCanvas(Main main) {
         this.main = main;
     }
