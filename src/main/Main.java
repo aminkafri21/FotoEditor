@@ -1,5 +1,6 @@
 package main;
 
+import function.FileFunction;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,12 +8,15 @@ import java.awt.event.ActionListener;
 
 public class Main implements ActionListener {
 
-    JFrame window;
+    public JFrame window;
     JMenuBar menubar;
     JMenu mFile, mEdit, mImage;
     JMenuItem iNew, iOpen, iExit, iSave, iSaveAs;
     JMenuItem iUndo, iCropping, iResize, iSelect;
     JMenuItem iBrightness, iBlur, iMono;
+    
+    public ImageCanvas imageCanvas;
+    public FileFunction fileFunc;
 
     public static void main(String[] args) {
         new Main();
@@ -24,6 +28,10 @@ public class Main implements ActionListener {
         createMenu();
         createMenuItem();
 
+        imageCanvas = new ImageCanvas(this);
+        fileFunc = new FileFunction(this);
+        window.add(imageCanvas);
+        
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
@@ -33,6 +41,8 @@ public class Main implements ActionListener {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("FotoEditor");
         window.setSize(new Dimension(800, 600));
+        
+        
     }
 
     public void createMenuBar() {
@@ -122,32 +132,33 @@ public class Main implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
+        String command = e.getActionCommand(); 
         switch(command){
-            case "New":
-                break;
-            case "Open":
-                break;
-            case "Exit":
-                break;
-            case "Save":
-                break;
-            case "SaveAs":
-                break;
-            case "Undo":
-                break;
-            case "Crop":
-                break;
-            case "Resize":
-                break;
-            case "Select":
-                break;
-            case "Bright":
-                break;
-            case "Blur":
-                break;
-            case "Mono":
-                break;
+        case "New":
+            break;
+        case "Open":
+            fileFunc.open();
+            break; 
+        case "Exit":
+            break; 
+        case "Save":
+            break;
+        case "SaveAs":
+            break;
+        case "Undo":
+            break;
+        case "Crop":
+            break;
+        case "Resize":
+            break;
+        case "Select":
+            break;
+        case "Bright":
+            break;
+        case "Blur":
+            break;
+        case "Mono":
+            break;
         }
     }
 }
