@@ -56,7 +56,7 @@ public class FileFunction {
     
     public void saveAs() {
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "JPG & GIF Image", "jpg", "gif", "png"
+            "JPG, PNG, GIF", "jpg", "gif", "png"
         );
         fileChooser.setFileFilter(filter);
         int returnVal = fileChooser.showSaveDialog(main.window);

@@ -1,6 +1,8 @@
 package main;
 
 import function.FileFunction;
+import function.ImageFunction;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +11,7 @@ import java.awt.event.ActionListener;
 public class Main implements ActionListener {
 
     public JFrame window;
+    public JDesktopPane desktopPane;
     JMenuBar menubar;
     JMenu mFile, mEdit, mImage;
     JMenuItem iNew, iOpen, iExit, iSave, iSaveAs;
@@ -17,6 +20,7 @@ public class Main implements ActionListener {
     
     public ImageCanvas imageCanvas;
     public FileFunction fileFunc;
+    public ImageFunction imageFunc;
 
     public static void main(String[] args) {
         new Main();
@@ -30,6 +34,7 @@ public class Main implements ActionListener {
 
         imageCanvas = new ImageCanvas(this);
         fileFunc = new FileFunction(this);
+        imageFunc = new ImageFunction(this);
         window.add(imageCanvas);
         
         window.setLocationRelativeTo(null);
@@ -41,8 +46,8 @@ public class Main implements ActionListener {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("FotoEditor");
         window.setSize(new Dimension(800, 600));
-        
-        
+        desktopPane = new JDesktopPane();
+        window.setContentPane(desktopPane);
     }
 
     public void createMenuBar() {
@@ -158,8 +163,10 @@ public class Main implements ActionListener {
         case "Select":
             break;
         case "Bright":
+            imageFunc.adjustBrightness();
             break;
         case "Blur":
+            imageFunc.blur();
             break;
         case "Mono":
             break;
