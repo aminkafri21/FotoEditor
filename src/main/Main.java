@@ -1,22 +1,28 @@
 package main;
 
+import function.EditFunction;
 import function.FileFunction;
+import function.ImageFunction;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 public class Main implements ActionListener {
 
+    public BufferedImage originalImage;
     public JFrame window;
     JMenuBar menubar;
     JMenu mFile, mEdit, mImage;
     JMenuItem iNew, iOpen, iExit, iSave, iSaveAs;
-    JMenuItem iUndo, iCropping, iResize, iSelect;
+    JMenuItem iUndo, iRedo, iCropping, iResize, iSelect;
     JMenuItem iBrightness, iBlur, iMono;
     
     public ImageCanvas imageCanvas;
     public FileFunction fileFunc;
+    public ImageFunction imageFunc;
+    public EditFunction editFunc;
 
     public static void main(String[] args) {
         new Main();
@@ -30,6 +36,8 @@ public class Main implements ActionListener {
 
         imageCanvas = new ImageCanvas(this);
         fileFunc = new FileFunction(this);
+        imageFunc = new ImageFunction(this);
+        editFunc = new EditFunction(this);
         window.add(imageCanvas);
         
         window.setLocationRelativeTo(null);
@@ -73,11 +81,6 @@ public class Main implements ActionListener {
         iOpen.setActionCommand("Open");
         mFile.add(iOpen);
 
-        iExit = new JMenuItem("Exit");
-        iExit.addActionListener(this);
-        iExit.setActionCommand("Exit");
-        mFile.add(iExit);
-
         iSave = new JMenuItem("Save");
         iSave.addActionListener(this);
         iSave.setActionCommand("Save");
@@ -88,6 +91,11 @@ public class Main implements ActionListener {
         iSaveAs.setActionCommand("SaveAs");
         mFile.add(iSaveAs);
 
+        iExit = new JMenuItem("Exit");
+        iExit.addActionListener(this);
+        iExit.setActionCommand("Exit");
+        mFile.add(iExit);
+        
         // End
 
         //Edit Menu Item
@@ -95,6 +103,11 @@ public class Main implements ActionListener {
         iUndo.addActionListener(this);
         iUndo.setActionCommand("Undo");
         mEdit.add(iUndo);
+        
+        iRedo = new JMenuItem("Redo");
+        iUndo.addActionListener(this);
+        iUndo.setActionCommand("Redo");
+        mEdit.add(iRedo);
 
         iCropping = new JMenuItem("Crop");
         iCropping.addActionListener(this);
@@ -150,16 +163,24 @@ public class Main implements ActionListener {
             fileFunc.saveAs();
             break;
         case "Undo":
+            editFunc.undo();
+            break;
+        case "Redo":
+            editFunc.redo();
             break;
         case "Crop":
+            editFunc.crop();
             break;
         case "Resize":
             break;
         case "Select":
             break;
         case "Bright":
+            imageFunc.adjustBrightness(0f);
+            imageFunc.showBrightnessDialog();
             break;
         case "Blur":
+            imageFunc.applyBlur();
             break;
         case "Mono":
             break;
