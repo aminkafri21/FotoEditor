@@ -3,12 +3,17 @@ package function;
 import main.Main;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.image.RescaleOp;
 
 public class ImageFunction {
     private Main main;
     JInternalFrame brightnessFrame, blurFrame;
     JSlider brightnessSlider, blurSlider;
+    private float brightValue = 0.0f;
+    private RescaleOp rescaleOp;
     public ImageFunction(Main main) {
         this.main = main;
     }
@@ -25,6 +30,17 @@ public class ImageFunction {
         brightnessFrame.add(brightnessSlider);
         brightnessFrame.setVisible(true);
         main.window.add(brightnessFrame);
+
+//        brightnessSlider.addChangeListener(new ChangeListener() {
+//           @Override
+//           public void stateChanged(ChangeEvent e) {
+//              int sliderValue = brightnessSlider.getValue();
+//              brightValue = sliderValue - 128;
+//              if (main.imageCanvas.image != null) {
+//                  rescale();
+//              }
+//           }
+//        });
     }
     public void blur() {
         blurSlider = new JSlider(JSlider.HORIZONTAL, 100,  0);
@@ -39,5 +55,9 @@ public class ImageFunction {
         blurFrame.add(blurSlider);
         blurFrame.setVisible(true);
         main.window.add(blurFrame);
+    }
+    public void rescale() {
+        rescaleOp = new RescaleOp(0.0f, brightValue, null);
+        main.imageCanvas.image = rescaleOp.filter(main.imageCanvas.image, main.imageCanvas.image);
     }
 }
