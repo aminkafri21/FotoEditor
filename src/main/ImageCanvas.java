@@ -49,7 +49,7 @@ public class ImageCanvas extends JPanel{
             int winCentery = (win_H - new_H) / 2;
 
             // Draw the image
-            image = main.imageFunc.rescale(image, main.imageFunc.brightVal);
+            image = main.imageFunc.rescale(image, (int) main.imageFunc.brightVal);
 //            image = main.imageFunc.blurImage(image, main.imageFunc.blurVal);
             g.drawImage(image, winCenterx, winCentery, new_W, new_H, null);
         }

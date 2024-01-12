@@ -36,6 +36,7 @@ public class ImageFunction {
         brightSlider.addChangeListener(e -> {
             JSlider source = (JSlider)e.getSource();
             brightVal = source.getValue();
+//            System.out.println(brightVal);
             main.imageCanvas.repaint();
         });
 
@@ -104,19 +105,13 @@ public class ImageFunction {
         blurDialog.setLocationRelativeTo(main.window);
         blurDialog.setVisible(true);
     }
-
-    public BufferedImage blurImage(BufferedImage image, int percentage) {return null;}
-    public void monochrome() {
-
-    }
     public BufferedImage rescale(BufferedImage image, int percentage) {
         BufferedImage img = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
-        int val = (int) (percentage * 255 / 100);
+        int val = (int) ((percentage / 2.0f) * 255 / 100.0f);
         for (int y = 0; y < main.imageCanvas.image.getHeight(); y++) {
             for (int x = 0; x < main.imageCanvas.image.getWidth(); x++) {
                 int pixel = main.imageCanvas.image.getRGB(x, y);
 
-                // Extract color components (assuming ARGB format):
                 int red = ((pixel >> 16) & 0xFF) + val;
                 int green = ((pixel >> 8) & 0xFF) + val;
                 int blue =  (pixel & 0xFF) + val;
@@ -131,6 +126,11 @@ public class ImageFunction {
         }
         return img;
     }
+    public BufferedImage blurImage(BufferedImage image, int percentage) {return null;}
+    public void monochrome() {
+
+    }
+
 
 }
 
