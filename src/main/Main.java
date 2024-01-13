@@ -166,6 +166,8 @@ public class Main implements ActionListener {
             imageFunc.adjustBlur();
             break;
         case "Mono":
+            imageFunc.setMono();
+            imageCanvas.repaint();
             break;
         }
     }

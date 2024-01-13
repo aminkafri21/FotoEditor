@@ -50,7 +50,10 @@ public class ImageCanvas extends JPanel{
 
             // Draw the image
             image = main.imageFunc.rescale(image, (int) main.imageFunc.brightVal);
-//            image = main.imageFunc.blurImage(image, main.imageFunc.blurVal);
+            image = main.imageFunc.boxBlur(main.imageFunc.radius, image);
+            if (main.imageFunc.monoOn == true) {
+                image = main.imageFunc.monochrome(image);
+            }
             g.drawImage(image, winCenterx, winCentery, new_W, new_H, null);
         }
     }

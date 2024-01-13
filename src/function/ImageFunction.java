@@ -12,7 +12,8 @@ public class ImageFunction {
     private JSlider brightSlider, blurSlider;
     private JDialog brightDialog, blurDialog;
     private boolean brightSliderOn, blurSliderOn;
-    public int brightVal, blurVal;
+    public int brightVal, radius = 0;
+    public boolean monoOn = false;
 
 
     public ImageFunction(Main main) {
@@ -65,21 +66,21 @@ public class ImageFunction {
     public void adjustBlur() {
         if (blurSliderOn) {
             blurSliderOn = false;
-            blurSlider.setVisible(false);
+            blurDialog.setVisible(false);
             return;
         }
         if (main.imageCanvas.image == null) {
             return;
         }
 
-        blurSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
-        blurSlider.setMajorTickSpacing(25);
+        blurSlider = new JSlider(JSlider.HORIZONTAL, 1, 20, 1);
+        blurSlider.setMajorTickSpacing(2);
         blurSlider.setPaintLabels(true);
         blurSlider.setPaintTicks(true);
-        blurSlider.setSnapToTicks(false);
+        blurSlider.setSnapToTicks(true);
         blurSlider.addChangeListener(e -> {
             JSlider source = (JSlider)e.getSource();
-            blurVal = source.getValue();
+            radius = source.getValue();
             main.imageCanvas.repaint();
         });
 
@@ -87,9 +88,8 @@ public class ImageFunction {
         JButton okButton = new JButton("OK");
         okButton.addActionListener(e -> {
             blurSliderOn = false;
-            blurSlider.setVisible(false);
+            blurDialog.setVisible(false);
         });
-
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // For OK button
         southPanel.add(okButton);
 
@@ -126,11 +126,47 @@ public class ImageFunction {
         }
         return img;
     }
-    public BufferedImage blurImage(BufferedImage image, int percentage) {return null;}
-    public void monochrome() {
-
+    public BufferedImage monochrome(BufferedImage image) {
+        BufferedImage outputImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                int pixel = image.getRGB(x, y);
+                int avg = (int) ((pixel >> 16 & 0xFF) * 0.299 + (pixel >> 8 & 0xFF) * 0.587 + (pixel & 0xFF) * 0.114);
+                outputImage.setRGB(x, y, (avg << 16) | (avg << 8) | avg);
+            }
+        }
+        return outputImage;
     }
-
+    public void setMono() {
+       monoOn = !monoOn;
+    }
+    public BufferedImage boxBlur(int radius, BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        int area = (2 * radius + 1) * (2 * radius + 1);
+        for (int x = radius; x < width - radius; x++) {
+            for (int y = radius; y < height - radius; y++) {
+                int sumRed = 0;
+                int sumGreen = 0;
+                int sumBlue = 0;
+                for (int i = x - radius; i <= x + radius; i++) {
+                    for (int j = y - radius; j <= y + radius; j++) {
+                        int pixel = image.getRGB(i, j);
+                        sumRed += (pixel >> 16) & 0xFF;
+                        sumGreen += (pixel >> 8) & 0xFF;
+                        sumBlue += pixel & 0xFF;
+                    }
+                }
+                int avgRed = sumRed / area;
+                int avgGreen = sumGreen / area;
+                int avgBlue = sumBlue / area;
+                int newPixel = (avgRed << 16) | (avgGreen << 8) | avgBlue;
+                outputImage.setRGB(x, y, newPixel);
+            }
+        }
+        return outputImage;
+    }
 
 }
 
