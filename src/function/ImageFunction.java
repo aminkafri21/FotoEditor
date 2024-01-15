@@ -73,7 +73,7 @@ public class ImageFunction {
             return;
         }
 
-        blurSlider = new JSlider(JSlider.HORIZONTAL, 1, 20, 1);
+        blurSlider = new JSlider(JSlider.HORIZONTAL, 0, 20, 0);
         blurSlider.setMajorTickSpacing(2);
         blurSlider.setPaintLabels(true);
         blurSlider.setPaintTicks(true);

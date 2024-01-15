@@ -1,5 +1,6 @@
 package main;
 
+import function.EditFunction;
 import function.FileFunction;
 import function.ImageFunction;
 
@@ -22,6 +23,8 @@ public class Main implements ActionListener {
     public ImageCanvas imageCanvas;
     public FileFunction fileFunc;
     public ImageFunction imageFunc;
+    public EditFunction editFunc;
+    public Stack<BufferedImage> editedImage;
     public static void main(String[] args) {
         new Main();
     }
@@ -35,6 +38,8 @@ public class Main implements ActionListener {
         fileFunc = new FileFunction(this);
         imageCanvas = new ImageCanvas(this);
         imageFunc = new ImageFunction(this);
+        editFunc = new EditFunction(this);
+        editedImage = new Stack<>();
         window.add(imageCanvas);
 
         window.setLocationRelativeTo(null);
@@ -154,12 +159,17 @@ public class Main implements ActionListener {
             fileFunc.saveAs();
             break;
         case "Undo":
+            editFunc.undo();
             break;
         case "Crop":
+            editFunc.crop();
             break;
         case "Resize":
+            imageCanvas.image = editFunc.resize();
+            imageCanvas.repaint();
             break;
         case "Select":
+            editFunc.select();
             break;
         case "Bright":
             imageFunc.adjustBrightness();
