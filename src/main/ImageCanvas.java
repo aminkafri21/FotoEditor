@@ -45,8 +45,8 @@ public class ImageCanvas extends JPanel{
             int new_H = (int) (img_H * scale);
 
             // Calculate the position to center the image
-            int winCenterx = (win_W - new_W) / 2;
-            int winCentery = (win_H - new_H) / 2;
+            int winCenterX = (win_W - new_W) / 2;
+            int winCenterY = (win_H - new_H) / 2;
 
             // Draw the image
             image = main.imageFunc.rescale(image, (int) main.imageFunc.brightVal);
@@ -54,7 +54,7 @@ public class ImageCanvas extends JPanel{
             if (main.imageFunc.monoOn == true) {
                 image = main.imageFunc.monochrome(image);
             }
-            g.drawImage(image, winCenterx, winCentery, new_W, new_H, null);
+            g.drawImage(image, winCenterX, winCenterY, new_W, new_H, null);
         }
     }
 }
