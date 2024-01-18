@@ -13,6 +13,7 @@ import javax.swing.*;
 public class ImageCanvas extends JPanel{
     Main main;
     public BufferedImage image = null;
+    public BufferedImage originalImage = null;
     public String currentImagePath = null;
 
     public ImageCanvas(Main main) {
@@ -42,33 +43,26 @@ public class ImageCanvas extends JPanel{
             int img_W = image.getWidth();
             int img_H = image.getHeight();
 
-            // Calculate the scale to fit the image within the window while maintaining aspect ratio
             double scale = Math.min((double) win_W / img_W, (double) win_H / img_H);
 
-            // Calculate the new width and height
             int new_W = (int) (img_W * scale);
             int new_H = (int) (img_H * scale);
 
-            // Calculate the position to center the image
             int winCenterX = (win_W - new_W) / 2;
             int winCenterY = (win_H - new_H) / 2;
 
-            // Create a copy of the original image
-            BufferedImage originalImage = deepCopy(image);
+            originalImage = deepCopy(image);
 
-            // Apply the brightness adjustment to the copy of the image
             originalImage = main.imageFunc.rescale(originalImage, (int) main.imageFunc.brightVal);
             originalImage = main.imageFunc.boxBlur(main.imageFunc.radius, originalImage);
             if (main.imageFunc.monoOn == true) {
                 originalImage = main.imageFunc.monochrome(originalImage);
             }
 
-            // Draw the adjusted image
             g.drawImage(originalImage, winCenterX, winCenterY, new_W, new_H, null);
         }
     }
 
-    // Function to create a deep copy of a BufferedImage
     public BufferedImage deepCopy(BufferedImage bi) {
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();

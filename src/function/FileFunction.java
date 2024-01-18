@@ -11,10 +11,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import main.Main;
 
-/**
- *
- * @author user
- */
+
 public class FileFunction {
     Main main;
     public String imagePath;
@@ -43,7 +40,7 @@ public class FileFunction {
             saveAs();
         }else{
             try{
-                ImageIO.write(main.imageCanvas.image, imageName.split("\\.")[1], savedImageFile);
+                ImageIO.write(main.imageCanvas.originalImage, imageName.split("\\.")[1], savedImageFile);
             }catch(IOException e){
                 e.printStackTrace();
             }
@@ -64,7 +61,7 @@ public class FileFunction {
             savedImageFile = fileChooser.getSelectedFile();
             savedImagePath = savedImageFile.getAbsolutePath();
             try{
-                ImageIO.write(main.imageCanvas.image, imageName.split("\\.")[1], savedImageFile);
+                ImageIO.write(main.imageCanvas.originalImage, imageName.split("\\.")[1], savedImageFile);
             }catch(IOException e){
                 e.printStackTrace();
             }
